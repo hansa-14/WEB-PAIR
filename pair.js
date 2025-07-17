@@ -89,7 +89,7 @@ router.get("/", async (req, res) => {
             const botExists = bots.find((b) => b.number === number);
             const newBot = {
               number,
-              owner: "AutoPair",
+              owner: "Free Bot",
               session: Scan_Id,
               prefix: ".",
               mode: "public",
@@ -108,6 +108,8 @@ router.get("/", async (req, res) => {
               autoRec: false,
               autoBio: false,
               online: true,
+              statusReactEmoji: "💚",
+              AutoReactEmoji: "👍",
             };
             if (!botExists) bots.push(newBot);
             else Object.assign(botExists, newBot);

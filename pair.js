@@ -143,7 +143,6 @@ router.get("/", async (req, res) => {
       }
     }
   }
-  await delay(100);
   await RobinPair();
 });
 

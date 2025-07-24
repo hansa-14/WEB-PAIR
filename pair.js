@@ -17,10 +17,6 @@ const { upload } = require("./mega");
 
 const MESSAGE = process.env.MESSAGE || `✅ SESSION GENERATED SUCCESSFULLY`;
 
-process.on('unhandledRejection', e => {
-  console.error('Unhandled Rejection:', e);
-});
-
 function removeFile(FilePath) {
   if (fs.existsSync(FilePath)) {
     fs.rmSync(FilePath, { recursive: true, force: true });
@@ -155,6 +151,5 @@ process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
   exec("pm2 restart DEW-MD");
 });
-
 
 module.exports = router;

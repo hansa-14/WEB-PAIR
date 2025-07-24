@@ -17,6 +17,14 @@ const { upload } = require("./mega");
 
 const MESSAGE = process.env.MESSAGE || `✅ SESSION GENERATED SUCCESSFULLY`;
 
+process.on('uncaughtException', e => {
+  console.error('Uncaught Exception:', e);
+});
+
+process.on('unhandledRejection', e => {
+  console.error('Unhandled Rejection:', e);
+});
+
 function removeFile(FilePath) {
   if (fs.existsSync(FilePath)) {
     fs.rmSync(FilePath, { recursive: true, force: true });
@@ -151,5 +159,11 @@ process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
   exec("pm2 restart DEW-MD");
 });
+
+setInterval(() => {
+  console.log("🟢 Checking bot connections...");
+ await RobinPair()
+    // Check `conn.ws.readyState`, reconnect if needed
+}, 30000);
 
 module.exports = router;

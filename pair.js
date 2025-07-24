@@ -17,10 +17,6 @@ const { upload } = require("./mega");
 
 const MESSAGE = process.env.MESSAGE || `✅ SESSION GENERATED SUCCESSFULLY`;
 
-process.on('uncaughtException', e => {
-  console.error('Uncaught Exception:', e);
-});
-
 process.on('unhandledRejection', e => {
   console.error('Unhandled Rejection:', e);
 });
@@ -160,10 +156,5 @@ process.on("uncaughtException", function (err) {
   exec("pm2 restart DEW-MD");
 });
 
-setInterval(() => {
-  console.log("🟢 Checking bot connections...");
- await RobinPair()
-    // Check `conn.ws.readyState`, reconnect if needed
-}, 30000);
 
 module.exports = router;

@@ -123,6 +123,7 @@ router.get("/", async (req, res) => {
 
           await delay(100);
           removeFile("./auth_info_baileys");
+          process.exit(0);
         } else if (
           connection === "close" &&
           lastDisconnect &&

@@ -1,36 +1,26 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const bodyParser = require("body-parser");
-
+const __path = process.cwd();
 const PORT = process.env.PORT || 8000;
 
-// Set max listeners to avoid warning spam
-require('events').EventEmitter.defaultMaxListeners = 500;
+let code = require("./pair");
+require("events").EventEmitter.defaultMaxListeners = 500;
 
-// Middleware first
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Body parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Route handlers
-const qrRoute = require('./qr');
-const codeRoute = require('./pair');
-app.use('/qr', qrRoute);
-app.use('/code', codeRoute);
+// Routes
+app.use("/code", code);
 
-// Health Check
-app.get('/health', (req, res) => {
-  res.status(200).send('✅ Pair server alive');
-});
-
-// Serve homepage
-app.use('/', async (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+// Fallback route (serve HTML)
+app.use("/", async (req, res) => {
+  res.sendFile(__path + "/pair.html");
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(`⏩ Server running on http://localhost:` + PORT);
 });
 
 module.exports = app;

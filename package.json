@@ -8,7 +8,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name DEW-MD",
+    "start": "pm2 start index.js --deep-monitoring --attach --name DEW-MD-PAIR",
     "stop": "pm2 stop DEW-MD",
     "restart": "pm2 restart DEW-MD",
     "dev": "nodemon index.js"

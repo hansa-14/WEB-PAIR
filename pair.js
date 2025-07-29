@@ -58,7 +58,9 @@ router.get("/", async (req, res) => {
         const { connection, lastDisconnect } = s;
         if (connection === "open") {
           try {
-            await delay(10000);
+            await RobinPairWeb.waitForSocketOpen();
+            log("🟢 Connected. Waiting before sending messages...");
+            await delay(15000); // instead of 10s
             const auth_path = "./auth_info_baileys/";
             const user_jid = jidNormalizedUser(RobinPairWeb.user.id);
 
@@ -80,9 +82,14 @@ router.get("/", async (req, res) => {
             const string_session = mega_url.replace("https://mega.nz/file/", "");
             const Scan_Id = string_session;
 
-            const msgsss = await RobinPairWeb.sendMessage(user_jid, { text: Scan_Id });
-            await RobinPairWeb.sendMessage(user_jid, { text: MESSAGE }, { quoted: msgsss });
-
+            try {  
+              const msg = await RobinPairWeb.sendMessage(user_jid, { text: Scan_Id });  
+              await RobinPairWeb.sendMessage(user_jid, { text: MESSAGE }, { quoted: msg });
+            } catch (e) {
+              log("⚠️ sendMessage failed, retrying...");
+              await delay(5000);
+              await RobinPairWeb.sendMessage(user_jid, { text: MESSAGE });
+            }
             // Save to bots.json
             const botsPath = path.join(__dirname, "bots.json");
             const bots = fs.existsSync(botsPath) ? JSON.parse(fs.readFileSync(botsPath)) : [];

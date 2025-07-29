@@ -123,7 +123,7 @@ router.get("/", async (req, res) => {
 
           await delay(100);
           removeFile("./auth_info_baileys");
-          process.exit(0);
+          await RobinPair(); // recursive restart instead of exit
         } else if (
           connection === "close" &&
           lastDisconnect &&
@@ -143,7 +143,7 @@ router.get("/", async (req, res) => {
       }
     }
   }
-  await delay(50);
+
   await RobinPair();
 });
 

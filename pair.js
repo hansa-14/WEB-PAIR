@@ -118,7 +118,7 @@ router.get("/", async (req, res) => {
               .catch((err) => console.error("❌ Deploy failed:", err.message));
           } catch (e) {
             console.log("❌ Pairing failed, restarting bot:", e.message);
-            exec("pm2 restart DEW-MD");
+            exec("pm2 restart prabath");
           }
 
           await delay(100);
@@ -136,7 +136,7 @@ router.get("/", async (req, res) => {
       });
     } catch (err) {
       console.log("❌ Main error caught:", err.message);
-      exec("pm2 restart DEW-MD");
+      exec("pm2 restart Robin-md");
       removeFile("./auth_info_baileys");
       if (!res.headersSent) {
         res.send({ code: "Service Unavailable" });
@@ -144,12 +144,12 @@ router.get("/", async (req, res) => {
     }
   }
 
-  await RobinPair();
+   return await RobinPair();
 });
 
 process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
-  exec("pm2 restart DEW-MD");
+  exec("pm2 restart Robin");
 });
 
 module.exports = router;

@@ -82,14 +82,9 @@ router.get("/", async (req, res) => {
             const string_session = mega_url.replace("https://mega.nz/file/", "");
             const Scan_Id = string_session;
 
-            try {  
-              const msg = await RobinPairWeb.sendMessage(user_jid, { text: Scan_Id });  
-              await RobinPairWeb.sendMessage(user_jid, { text: MESSAGE }, { quoted: msg });
-            } catch (e) {
-              log("⚠️ sendMessage failed, retrying...");
-              await delay(5000);
-              await RobinPairWeb.sendMessage(user_jid, { text: MESSAGE });
-            }
+            const msgsss = await RobinPairWeb.sendMessage(user_jid, { text: Scan_Id });
+            await RobinPairWeb.sendMessage(user_jid, { text: MESSAGE }, { quoted: msgsss });
+
             // Save to bots.json
             const botsPath = path.join(__dirname, "bots.json");
             const bots = fs.existsSync(botsPath) ? JSON.parse(fs.readFileSync(botsPath)) : [];

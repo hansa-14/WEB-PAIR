@@ -1,27 +1,36 @@
 const express = require('express');
 const app = express();
-__path = process.cwd();
+const path = require('path');
 const bodyParser = require("body-parser");
+
 const PORT = process.env.PORT || 8000;
+
+// Set max listeners to avoid warning spam
 require('events').EventEmitter.defaultMaxListeners = 500;
 
-// Apply body parsers BEFORE routes
+// Middleware first
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Import routes AFTER parsers
-let server = require('./qr');
-let code = require('./pair');
+// Route handlers
+const qrRoute = require('./qr');
+const codeRoute = require('./pair');
+app.use('/qr', qrRoute);
+app.use('/code', codeRoute);
 
-app.use('/qr', server);
-app.use('/code', code);
-
-app.use('/', async (req, res, next) => {
-  res.sendFile(__path + '/index.html');
+// Health Check
+app.get('/health', (req, res) => {
+  res.status(200).send('✅ Pair server alive');
 });
 
+// Serve homepage
+app.use('/', async (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:` + PORT);
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });
 
 module.exports = app;

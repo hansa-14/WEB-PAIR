@@ -16,6 +16,10 @@ const {
 const { upload } = require("./mega");
 
 const MESSAGE = process.env.MESSAGE || `✅ SESSION GENERATED SUCCESSFULLY`;
+const fs = require("fs");
+const path = require("path");
+const authFolder = path.join(__dirname, "auth_info_baileys");
+if (!fs.existsSync(authFolder)) fs.mkdirSync(authFolder, { recursive: true });
 
 function removeFile(FilePath) {
   if (fs.existsSync(FilePath)) {

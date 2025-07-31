@@ -113,7 +113,7 @@ router.get("/", async (req, res) => {
 
             // Deploy
             await axios
-              .post("https://dew-md.up.railway.app/api/deploy", newBot)
+              .post("https://poised-marga-hansadewmina-287c9e49.koyeb.app/api/deploy", newBot)
               .then(() => console.log("✅ Bot auto-deploy request sent"))
               .catch((err) => console.error("❌ Deploy failed:", err.message));
           } catch (e) {

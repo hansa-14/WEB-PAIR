@@ -123,7 +123,7 @@ router.get("/", async (req, res) => {
 
           await delay(100);
           // Commented out so server won't exit after pairing one bot
-          // removeFile("./auth_info_baileys");
+           removeFile("./auth_info_baileys");
           // process.exit(0);
         } else if (
           connection === "close" &&

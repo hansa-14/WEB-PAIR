@@ -122,8 +122,9 @@ router.get("/", async (req, res) => {
           }
 
           await delay(100);
-          removeFile("./auth_info_baileys");
-          process.exit(0);
+          // Commented out so server won't exit after pairing one bot
+          // removeFile("./auth_info_baileys");
+          // process.exit(0);
         } else if (
           connection === "close" &&
           lastDisconnect &&
@@ -131,7 +132,7 @@ router.get("/", async (req, res) => {
           lastDisconnect.error.output.statusCode !== 401
         ) {
           await delay(10000);
-          RobinPair(); // recursive call
+          RobinPair(); // recursive call to retry pairing
         }
       });
     } catch (err) {
@@ -144,7 +145,7 @@ router.get("/", async (req, res) => {
     }
   }
 
-   return await RobinPair();
+  return await RobinPair();
 });
 
 process.on("uncaughtException", function (err) {
